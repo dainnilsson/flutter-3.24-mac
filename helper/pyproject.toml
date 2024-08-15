@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "authenticator-helper"
+version = "0.1.0"
+description = "Yubico Authenticator Helper"
+authors = ["Dain Nilsson <dain@yubico.com>"]
+packages = [
+  { include = "helper" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+yubikey-manager = "^5.5"
+mss = "^9.0.1"
+Pillow = "^10.2.0"
+zxing-cpp = "^2.2.0"
+
+[tool.poetry.dev-dependencies]
+pyinstaller = {version = "^6.0", python = "<3.13"}
+pytest = "^8.0.0"
+mypy = "^1.7.1"
+types-Pillow = "^10.2.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+files = "."
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["smartcard.*", "zxingcpp"]
+ignore_missing_imports = true
