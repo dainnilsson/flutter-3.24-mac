@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlinx-serialization'
+    id 'dev.flutter.flutter-gradle-plugin'
+    id 'com.google.android.gms.oss-licenses-plugin'
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+
+    namespace 'com.yubico.authenticator'
+
+    compileSdk project.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.yubico.yubioath"
+        minSdkVersion project.minSdkVersion
+        targetSdk project.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def abiCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, x86: 3, x86_64: 4]
+            def abiCode = abiCodes.get(output.getFilter(com.android.build.OutputFile.ABI))
+            output.versionCodeOverride = variant.versionCode * 10 + (abiCode != null ? abiCode : 0)
+        }
+    }
+
+}
+
+apply from: "signing.gradle"
+apply from: "collect_licenses.gradle"
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    api "com.yubico.yubikit:android:$project.yubiKitVersion"
+    api "com.yubico.yubikit:management:$project.yubiKitVersion"
+    api "com.yubico.yubikit:oath:$project.yubiKitVersion"
+    api "com.yubico.yubikit:fido:$project.yubiKitVersion"
+    api "com.yubico.yubikit:support:$project.yubiKitVersion"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
+
+    // Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3'
+
+    implementation "androidx.core:core-ktx:1.13.1"
+    implementation 'androidx.fragment:fragment-ktx:1.8.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+
+    implementation 'com.google.android.material:material:1.12.0'
+
+    implementation 'com.github.tony19:logback-android:3.0.0'
+
+    // testing dependencies
+    testImplementation "junit:junit:$project.junitVersion"
+    testImplementation "org.mockito:mockito-core:$project.mockitoVersion"
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+}

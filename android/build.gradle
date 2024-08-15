@@ -1,0 +1,28 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    project.ext {
+        minSdkVersion = 21
+        targetSdkVersion = 34
+        compileSdkVersion = 34
+
+        yubiKitVersion = "2.7.0-alpha01"
+        junitVersion = "4.13.2"
+        mockitoVersion = "5.12.0"
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

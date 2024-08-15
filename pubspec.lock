@@ -400,6 +400,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  qrscanner_zxing:
+    dependency: "direct main"
+    description:
+      path: "android/flutter_plugins/qrscanner_zxing"
+      relative: true
+    source: path
+    version: "1.0.0"
   riverpod:
     dependency: transitive
     description:
