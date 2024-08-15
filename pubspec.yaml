@@ -36,8 +36,33 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-
-  window_manager: ^0.4.0
+  async: ^2.8.2
+  logging: ^1.2.0
+  collection: ^1.17.2
+  shared_preferences: ^2.2.2
+  flutter_riverpod: ^2.5.1
+  json_annotation: ^4.8.1
+  freezed_annotation: ^2.4.1
+  window_manager:
+    git:
+      url: https://github.com/fdennis/window_manager.git
+      ref: 2272d45bcf46d7e2b452a038906fbc85df3ce83d
+  screen_retriever: ^0.1.6
+  desktop_drop: ^0.4.4
+  url_launcher: ^6.2.1
+  path_provider: ^2.1.1
+  vector_graphics: ^1.1.9+1
+  vector_graphics_compiler: ^1.1.9+1
+  path: ^1.8.2
+  file_picker: ^8.0.0+1
+  archive: ^3.4.9
+  crypto: ^3.0.2
+  tray_manager: ^0.2.0
+  local_notifier: ^0.1.5
+  io: ^1.0.4
+  base32: ^2.1.3
+  convert: ^3.1.1
+  material_symbols_icons: ^4.2741.0
 
 dev_dependencies:
   flutter_test:
